@@ -40,13 +40,15 @@ public class Storm implements GameObject {
 
 	private void defineObject() {
 		
+		short mask = PLAYER_MASK;
+		
 		fixture = FixtureFactory.createRactangleB2DObject(
 			world, 
-			BodyType.StaticBody, 
+			BodyType.DynamicBody, 
 			startPos, 
 			new float[] {159f/4.5f, 206f/4.5f}, 
 			DATASTORM_MASK, 
-			PLAYER_MASK
+			mask
 		);
 		
 		body = fixture.getBody();

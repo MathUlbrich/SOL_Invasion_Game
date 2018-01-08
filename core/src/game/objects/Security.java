@@ -1,6 +1,10 @@
 package game.objects;
 
-import static game.WorldVars.*;
+import static game.WorldVars.KURIBALL_MASK;
+import static game.WorldVars.OUTSTAGE_MASK;
+import static game.WorldVars.PLAYER_MASK;
+import static game.WorldVars.PPM;
+import static game.WorldVars.SECURITY_MASK;
 
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.Texture.TextureFilter;
@@ -14,7 +18,6 @@ import com.badlogic.gdx.physics.box2d.BodyDef.BodyType;
 import com.badlogic.gdx.physics.box2d.Fixture;
 import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.utils.Array;
-
 import game.Assets;
 import game.FixtureFactory;
 

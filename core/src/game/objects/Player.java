@@ -1,7 +1,12 @@
 package game.objects;
 
-import static game.WorldVars.*;
-import static game.Assets.*;
+import static game.Assets.YUSAKU_SPRITES;
+import static game.Assets.getTextureAsset;
+import static game.WorldVars.DATAPIECE_MASK;
+import static game.WorldVars.DATASTORM_MASK;
+import static game.WorldVars.PLAYER_MASK;
+import static game.WorldVars.PPM;
+import static game.WorldVars.SECURITY_MASK;
 
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.Texture.TextureFilter;
@@ -17,8 +22,8 @@ import com.badlogic.gdx.physics.box2d.Fixture;
 import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.utils.Array;
 
-import game.FixtureFactory;
 import game.Bullet;
+import game.FixtureFactory;
 import game.input.InputState;
 
 public class Player implements GameObject {
@@ -38,7 +43,7 @@ public class Player implements GameObject {
 	private Animation<TextureRegion> runningAnimation;
 	private Animation<TextureRegion> attackingAnimation;
 	private boolean inAttacking;
-	private Bullet bullets;
+	public Bullet bullets;
 	
 	public Player(World world, Vector2 startPos) {
 		this.world = world;
@@ -84,7 +89,7 @@ public class Player implements GameObject {
 	}
 	
 	private void defineObject() {
-		short mask = SECURITY_MASK | DATASTORM_MASK;
+		short mask = SECURITY_MASK | DATASTORM_MASK | DATAPIECE_MASK;
 		
 		fixture = FixtureFactory.createRactangleB2DObject(
 			world, 

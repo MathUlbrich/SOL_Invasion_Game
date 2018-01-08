@@ -25,7 +25,8 @@ public class Main extends ApplicationAdapter {
 		camera = new OrthographicCamera();
 		manager = new StateManager(this);
 		camera.setToOrtho(false, V_WIDTH, V_HEIGHT);
-		manager.pushState(State.PLAY);
+		//manager.pushState(State.PLAY);
+		manager.pushState(State.MENU);
 	}
 
 	@Override
