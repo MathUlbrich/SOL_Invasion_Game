@@ -138,7 +138,7 @@ public class Player implements GameObject {
 			stateTimer = 0;
 		}
 		
-		InputState.update();
+		//InputState.update();
 	}
 	
 	private void updatePosition() {

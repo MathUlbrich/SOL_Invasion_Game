@@ -13,14 +13,13 @@ public class InputHandler extends InputAdapter {
 			InputState.setPressed(InputState.A); }
 		else if(keycode == Keys.D)
 			InputState.setPressed(InputState.D);
-		else if(keycode == Keys.W)
-			InputState.setPressed(InputState.W);
 		else if(keycode == Keys.O)
 			InputState.setPressed(InputState.O);
 		else if(keycode == Keys.P)
 			InputState.setPressed(InputState.P);
-		else if(keycode == Keys.S)
-			InputState.setPressed(InputState.S);
+		else if(keycode == Keys.SPACE)
+			InputState.setPressed(InputState.SPACE);
+		
 		return false;
 	}
 	
@@ -31,14 +30,12 @@ public class InputHandler extends InputAdapter {
 			InputState.abortPress(InputState.A);
 		else if(keycode == Keys.D)
 			InputState.abortPress(InputState.D);
-		else if(keycode == Keys.W)
-			InputState.abortPress(InputState.W);
 		else if(keycode == Keys.O)
 			InputState.abortPress(InputState.O);
 		else if(keycode == Keys.P)
 			InputState.abortPress(InputState.P);
-		else if(keycode == Keys.S)
-			InputState.abortPress(InputState.S);
+		else if(keycode == Keys.SPACE)
+			InputState.abortPress(InputState.SPACE);
 		
 		return false;
 	}

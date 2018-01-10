@@ -1,8 +1,8 @@
 package game;
 
 import static game.Assets.getProgressSkin;
-import static game.Settings.V_WIDTH;
 import static game.Settings.V_HEIGHT;
+import static game.Settings.V_WIDTH;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
@@ -13,7 +13,6 @@ import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.scenes.scene2d.ui.ProgressBar;
-
 import game.objects.Player;
 import game.state.SPlay;
 
@@ -55,7 +54,7 @@ public class HUD {
 		balls[2].setPosition(110f, top);
 		
 		// CONFIGURE AND CREATE THE PROGRESS BAR
-		bar = new ProgressBar(0, 9000, 90, true, getProgressSkin());
+		bar = new ProgressBar(0, 9000, 0.9f, true, getProgressSkin());
 		bar.setPosition(V_WIDTH - 170, 230);
 		
 		// CREATE THE BITMAPFONT

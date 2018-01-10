@@ -30,6 +30,9 @@ public class Assets {
 	public static final String GAMEFONT = "font/font.fnt";
 	public static final String GAMEFONT_GRADIENT = "font/font-gradient.fnt";
 	
+	public static final String PROXY_MENU = "back-menu.png";
+	public static final String PROXY_CIRCLE = "circle.png";
+	
 	public static void load() {
 		manager.load(YUSAKU_SPRITES, Texture.class);
 		manager.load(KURIBALL_SPRITE, Texture.class);
@@ -42,6 +45,8 @@ public class Assets {
 		manager.load(KURIHUD, Texture.class);
 		manager.load(DATAPIECE_SPRITES, Texture.class);
 		manager.load(BREAKING_EFFECT, Sound.class);
+		manager.load(PROXY_MENU, Texture.class);
+		manager.load(PROXY_CIRCLE, Texture.class);
 		
 		manager.finishLoading();
 	}

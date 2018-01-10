@@ -26,10 +26,12 @@ import game.DataSecurityFactory;
 import game.HUD;
 import game.Main;
 import game.input.InputHandler;
+import game.input.InputState;
 import game.objects.DataPiece;
 import game.objects.GOManager;
 import game.objects.Player;
 import game.objects.Storm;
+import game.state.StateManager.State;
 
 public class SPlay extends GameState {
 	
@@ -117,6 +119,9 @@ public class SPlay extends GameState {
 	public void update(float deltaTime) {
 		batch.setProjectionMatrix(camera.combined);
 		
+		if(InputState.isPressed(InputState.SPACE))
+			game.manager.pushState(State.PAUSE);
+		
 		// UPDATE THE CAMERA AND MOVE IT TO ABOVE
 		camera.update();
 		camera.position.y += 0.02f;
@@ -136,6 +141,9 @@ public class SPlay extends GameState {
 		
 		// COLLECT ALL BODIES MARKED TO BE REMOVED BY CONTACTRESOLVER CLASS
 		collector.collectBodiesToRemove();
+		
+		// UPDATE THE INPUT TO NOT BREAK WITH PRESSED STATE CODE
+		InputState.update();
 	}
 
 	@Override

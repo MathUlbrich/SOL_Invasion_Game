@@ -7,7 +7,7 @@ import game.Main;
 
 public class StateManager {
 
-	public enum State {MENU, PLAY, GAME_OVER};
+	public enum State {MENU, PLAY, GAME_OVER, PAUSE};
 	private Main game;
 	private Stack<GameState> states = new Stack<GameState>();
 	
@@ -15,13 +15,18 @@ public class StateManager {
 		this.game = game;
 	}
 
-	public void pushState(State state) {
+	public boolean pushState(final State state) {
+
 		if(state == State.PLAY)
 			states.push(new SPlay(game));
 		else if(state == State.MENU)
 			states.push(new SMenu(game));
 		else if(state == State.GAME_OVER)
 			states.push(new SOver(game));
+		else if(state == State.PAUSE)
+			states.push(new SPause(game));
+		
+		return false;
 	}
 
 	public void backState() {
