@@ -6,6 +6,8 @@ import static game.WorldVars.PLAYER_MASK;
 import static game.WorldVars.PPM;
 import static game.WorldVars.SECURITY_MASK;
 
+import java.util.Random;
+
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.Texture.TextureFilter;
 import com.badlogic.gdx.graphics.g2d.Animation;
@@ -18,6 +20,7 @@ import com.badlogic.gdx.physics.box2d.BodyDef.BodyType;
 import com.badlogic.gdx.physics.box2d.Fixture;
 import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.utils.Array;
+
 import game.Assets;
 import game.FixtureFactory;
 
@@ -38,6 +41,7 @@ public class Security implements GameObject {
 	private TextureRegion stand;
 	public boolean inConflict;
 	private boolean destroyed;
+	private boolean rotate;
 	
 	public Security(World world, Vector2 startPos, DataType type) {
 		this.world = world;
@@ -78,6 +82,7 @@ public class Security implements GameObject {
 		
 		form = new Sprite(stand);
 		form.setSize(form.getWidth() / PPM, form.getHeight() / PPM);
+		form.setOrigin(form.getWidth()/2, form.getHeight()/2);
 		body.setUserData(this);
 	}
 	
@@ -98,6 +103,11 @@ public class Security implements GameObject {
 		body.setUserData(this);
 		fixture.setUserData("data-security");
 		fixture.setSensor(true);
+		
+		Random rand = new Random();
+		
+		if(rand.nextInt(10) < 3 && type.equals(DataType.PURPLE))
+			rotate = true;
 	}
 	
 	public void draw(Batch batch) {
@@ -123,6 +133,10 @@ public class Security implements GameObject {
 				body.getPosition().x - form.getWidth()/2, 
 				body.getPosition().y - form.getHeight()/2
 		);
+		
+		// MAKE ROTATION
+		if(rotate)
+			form.rotate(1.5f);
 	}
 	
 	public void changeType(DataType type) {

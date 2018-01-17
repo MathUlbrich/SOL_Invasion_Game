@@ -6,7 +6,6 @@ import static game.Settings.SCREEN_WIDTH;
 
 import com.badlogic.gdx.backends.lwjgl.LwjglApplication;
 import com.badlogic.gdx.backends.lwjgl.LwjglApplicationConfiguration;
-
 import game.Main;
 
 public class DesktopLauncher {
@@ -14,7 +13,7 @@ public class DesktopLauncher {
 		LwjglApplicationConfiguration config = new LwjglApplicationConfiguration();
 		config.width = SCREEN_WIDTH ;
 		config.height = SCREEN_HEIGHT;
-		config.useGL30 = true;
+		//config.useGL30 = true;
 		config.title = TITLE;
 		new LwjglApplication(new Main(), config);
 	}

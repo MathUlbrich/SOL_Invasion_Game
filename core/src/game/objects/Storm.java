@@ -102,7 +102,7 @@ public class Storm implements GameObject {
 	}
 	
 	public void die() {
-		System.out.println("O objeto morreu!");
+
 	}
 	
 	public void destroyObject() {

@@ -209,13 +209,12 @@ com.badlogic.gdx.scenes.scene2d.ui.Label$LabelStyle: {
 }
 com.badlogic.gdx.scenes.scene2d.ui.ProgressBar$ProgressBarStyle: {
 	default-horizontal: {
-		background: progress-bar
-		knob: ysak
-		knobBefore: progress-bar-before-knob
+		background: barra
+		knob: saku
+		knobBefore: knob
 	}
 	default-vertical: {
 		background: progress-bar-vertical
-		knob: ysak
 		knobBefore: progress-bar-vertical-before-knob
 	}
 	default: {

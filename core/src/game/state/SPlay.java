@@ -17,7 +17,13 @@ import com.badlogic.gdx.maps.MapObject;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.physics.box2d.Body;
+import com.badlogic.gdx.physics.box2d.BodyDef;
+import com.badlogic.gdx.physics.box2d.BodyDef.BodyType;
 import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
+import com.badlogic.gdx.physics.box2d.ChainShape;
+import com.badlogic.gdx.physics.box2d.Fixture;
+import com.badlogic.gdx.physics.box2d.FixtureDef;
 import com.badlogic.gdx.physics.box2d.World;
 
 import game.BodyCollector;
@@ -25,6 +31,8 @@ import game.ContactResolver;
 import game.DataSecurityFactory;
 import game.HUD;
 import game.Main;
+import game.Settings;
+import game.WorldVars;
 import game.input.InputHandler;
 import game.input.InputState;
 import game.objects.DataPiece;
@@ -44,7 +52,6 @@ public class SPlay extends GameState {
 	private Player player;
 	private BodyCollector collector;
 	private HUD hud;
-	
 	private TiledMap map;
 	private OrthogonalTiledMapRenderer mapRenderer;
 	
@@ -59,7 +66,7 @@ public class SPlay extends GameState {
 		debug = new Box2DDebugRenderer();
 		world = new World(new Vector2(0, 0), true);
 		resolver = new ContactResolver(game);
-		player = new Player(world, new Vector2(0, 100f));
+		player = new Player(world, new Vector2(V_WIDTH/2f, 300f));
 		collector = new BodyCollector();
 		hud = new HUD(player);
 		score = 0;
@@ -70,7 +77,7 @@ public class SPlay extends GameState {
 		
 		// SET MAP RENDERER CAMERA SETTINGS
 		mapRenderer.setView(camera);
-		mapRenderer.getViewBounds().setX(200f/PPM);
+		mapRenderer.getViewBounds().x = -200f;
 		
 		// CREATE THE BACKGROUND SPRITES
 		bg = new Sprite[5];
@@ -78,11 +85,54 @@ public class SPlay extends GameState {
 			bg[i] = new Sprite(getTextureAsset(BACKGROUND_IMAGE));
 			bg[i].getTexture().setFilter(TextureFilter.Linear, TextureFilter.Linear);
 			bg[i].setSize(bg[i].getWidth() / (PPM * 1f), bg[i].getHeight() / (PPM * 1f));
-			bg[i].setPosition(-V_WIDTH / (PPM *2f), bg[i].getHeight() * i);
+			bg[i].setPosition(0, bg[i].getHeight() * i);
 		}		
 		
+		float[] blocksX = new float[] {
+				0, 
+				V_WIDTH/PPM, 
+				0, 
+				0, 
+				0, 
+				V_WIDTH/PPM, 
+				V_WIDTH/PPM, 
+				V_WIDTH/PPM
+		};
+		float[] blocksY = new float[] {
+				20f/PPM, 
+				20f/PPM, 
+				20f/PPM, 
+				(V_HEIGHT - 170)/PPM, 
+				(V_HEIGHT - 170)/PPM, 
+				(V_HEIGHT - 170)/PPM, 
+				(V_HEIGHT - 170)/PPM, 
+				20f/PPM
+		};
+		
+		// CREATE THE NON-PASS BLOCKS
+		for(int i = 0; i < 8; i+=2) {
+			BodyDef bdef = new BodyDef();
+			bdef.type = BodyType.KinematicBody;
+			bdef.position.x = 0;
+			bdef.position.y = 0;
+			bdef.linearVelocity.x = 0;
+			bdef.linearVelocity.y = 1.2f;
+			
+			ChainShape shape = new ChainShape();
+			shape.createChain(new Vector2[] { new Vector2(blocksX[i], blocksY[i]), new Vector2(blocksX[i+1], blocksY[i+1])});
+			
+			FixtureDef fdef = new FixtureDef();
+			fdef.shape = shape;
+			fdef.filter.categoryBits = WorldVars.BARRAGE_MASK;
+			fdef.filter.maskBits = WorldVars.PLAYER_MASK;
+			
+			Body body = world.createBody(bdef);
+			Fixture fixture = body.createFixture(fdef);
+			fixture.setUserData("barrage");
+		}
+		
 		// CREATE THE SECURITIES
-		for(int i = 0; i < 7; i++) {
+		for(int i = 0; i < 8; i++) {
 			
 			MapObject mapObj = map.getLayers().get("securities easy").getObjects().get("s" + i);
 			
@@ -112,6 +162,9 @@ public class SPlay extends GameState {
 		// ADD THE DATA PIECE
 		for(int i = 1; i <= 15; i++)
 			GOManager.instance.addGameObject(new DataPiece(world, new Vector2(0, 300f * i)));
+		
+		// TRANSLATE THE CAMERA TO MAP POSITION
+		camera.translate(V_WIDTH/(2f * PPM), 0);
 		
 	}
 	
@@ -167,7 +220,8 @@ public class SPlay extends GameState {
 		hud.render();
 		
 		// DRAW THE DEBUG MODE
-		debug.render(world, camera.combined);	
+		if(Settings.DEBUG_MODE)
+			debug.render(world, camera.combined);	
 	}
 
 }

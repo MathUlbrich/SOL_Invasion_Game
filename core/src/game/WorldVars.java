@@ -14,5 +14,6 @@ public class WorldVars {
 	public static final short DATAPIECE_MASK    = 32;
 	public static final short OUTSTAGE_MASK     = 64;
 	public static final short UNTOUCHABLE_MASK  = 128;
+	public static final short BARRAGE_MASK      = 256;
 	
 }

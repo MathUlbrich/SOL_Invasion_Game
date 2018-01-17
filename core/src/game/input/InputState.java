@@ -7,7 +7,8 @@ public class InputState {
 	public static final KeyState D     = new KeyState(1);
 	public static final KeyState O     = new KeyState(2);
 	public static final KeyState P     = new KeyState(3);
-	public static final KeyState SPACE = new KeyState(4);
+	public static final KeyState W     = new KeyState(4);
+	public static final KeyState SPACE = new KeyState(5);
 	
 	public static void setPressed(KeyState key) {
 		key.pressed = true;
@@ -31,6 +32,7 @@ public class InputState {
 		D.pressed = false;
 		O.pressed = false;
 		P.pressed = false;
+		W.pressed = false;
 		SPACE.pressed = false;
 	}
 	
