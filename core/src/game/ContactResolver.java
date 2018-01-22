@@ -1,11 +1,14 @@
 package game;
 
+import java.util.LinkedList;
+
 import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.Contact;
 import com.badlogic.gdx.physics.box2d.ContactImpulse;
 import com.badlogic.gdx.physics.box2d.ContactListener;
 import com.badlogic.gdx.physics.box2d.Manifold;
+import com.badlogic.gdx.scenes.scene2d.ui.List;
 import com.badlogic.gdx.utils.Queue;
 
 import game.objects.GOManager;
@@ -20,6 +23,7 @@ public class ContactResolver implements ContactListener {
 
 	private static Queue<Body> bodiesToRemove = new Queue<Body>();
 	private Main game;
+	public static LinkedList<Security> changedSecurities = new LinkedList<Security>();
 	
 	public ContactResolver(Main game) {
 		this.game = game;
@@ -38,8 +42,13 @@ public class ContactResolver implements ContactListener {
 				((Security)contact.getFixtureB().getBody().getUserData()).inConflict = true;
 				
 				for(GameObject go : GOManager.instance.getGameObjects()) {
-					if(go instanceof Security)
+					if(go instanceof Security) {
+						if(((Security)go).getType() == DataType.GREEN)
+							changedSecurities.add((Security)go);
+						
 						((Security)go).changeType(DataType.PURPLE);
+						HUD.inAlert = true;
+					}
 				}
 				
 				// PLAY THE SECURITY DESTROYING SOUND EFFECT

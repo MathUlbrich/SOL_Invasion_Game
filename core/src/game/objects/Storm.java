@@ -1,7 +1,15 @@
 package game.objects;
 
-import static game.WorldVars.*;
+import static game.Settings.V_WIDTH;
+import static game.WorldVars.DATASTORM_MASK;
+import static game.WorldVars.PLAYER_MASK;
+import static game.WorldVars.PPM;
 
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.ai.steer.SteeringAcceleration;
+import com.badlogic.gdx.ai.steer.behaviors.FollowPath;
+import com.badlogic.gdx.ai.steer.utils.paths.LinePath;
+import com.badlogic.gdx.ai.steer.utils.paths.LinePath.LinePathParam;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.Texture.TextureFilter;
 import com.badlogic.gdx.graphics.g2d.Animation;
@@ -18,9 +26,11 @@ import com.badlogic.gdx.utils.Array;
 
 import game.Assets;
 import game.FixtureFactory;
+import game.movements.SteeringBehaviorEntity;
 
 public class Storm implements GameObject {
 	
+	// BOX2D DATA
 	private World world;
 	private Vector2 startPos;
 	private Body body;
@@ -30,12 +40,31 @@ public class Storm implements GameObject {
 	private Animation<TextureRegion> breaking;
 	private float stateTimer;
 	
+	// STEERING OBJECTS
+	private SteeringBehaviorEntity entity;
+	
 	public Storm(World world, Vector2 startPos) {
 		this.world = world;
 		this.startPos = startPos;
 		stateTimer = 0;
 		defineObject();
 		defineAnimations();
+		
+		// CREATE THE PATH
+		Array<Vector2> waypoints = new Array<Vector2>();
+		waypoints.add(new Vector2((startPos.x - V_WIDTH/2) / PPM, startPos.y / PPM));
+		waypoints.add(new Vector2((startPos.x + V_WIDTH/2) / PPM, startPos.y / PPM));
+		
+		LinePath<Vector2> path = new LinePath<Vector2>(waypoints);
+		
+		// CREATE THE BEHAVIOR
+		entity = new SteeringBehaviorEntity(body, 30);
+		FollowPath<Vector2, LinePathParam> behavior = new FollowPath<Vector2, LinePathParam>(entity, path)
+				.setTimeToTarget(0.5f)
+				.setArrivalTolerance(0.001f);
+		
+		entity.setBehavior(behavior);
+		entity.setAcceleration(new SteeringAcceleration<Vector2>(new Vector2(0.3f, 0)));
 	}
 
 	private void defineObject() {
@@ -66,12 +95,12 @@ public class Storm implements GameObject {
 		frames.add(new TextureRegion(texture, 160, 0, 154, 206));
 		frames.add(new TextureRegion(texture, 0, 0, 159, 206));
 		
-		animation = new Animation<TextureRegion>(0.2f, frames);
+		animation = new Animation<TextureRegion>(0.3f, frames);
 		animation.setPlayMode(PlayMode.LOOP);
 		
 		frames.clear();
 		
-		breaking = new Animation<TextureRegion>(0.2f,frames);
+		breaking = new Animation<TextureRegion>(0.3f,frames);
 		animation.setPlayMode(PlayMode.LOOP);
 		
 		form = new Sprite(animation.getKeyFrame(stateTimer));
@@ -85,12 +114,16 @@ public class Storm implements GameObject {
 	}
 	
 	public void update(float dt) {
-		updatePosition();
+		updatePosition(dt);
 		form.setRegion(getFrame());
 		stateTimer += dt;
 	}
 	
-	private void updatePosition() {
+	private void updatePosition(float dt) {
+		entity.getBehavior().calculateSteering(entity.getAcceleration());
+		body.getPosition().mulAdd(entity.getLinearVelocity(), dt);
+		body.getLinearVelocity().mulAdd(entity.getAcceleration().linear, dt).limit(entity.getMaxLinearSpeed());
+		
 		form.setPosition(
 				body.getPosition().x - form.getWidth()/2, 
 				body.getPosition().y - form.getHeight()/2

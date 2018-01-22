@@ -16,8 +16,11 @@ import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
+import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.badlogic.gdx.physics.box2d.BodyDef.BodyType;
 import com.badlogic.gdx.physics.box2d.Fixture;
+import com.badlogic.gdx.physics.box2d.FixtureDef;
+import com.badlogic.gdx.physics.box2d.PolygonShape;
 import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.utils.Array;
 
@@ -48,8 +51,8 @@ public class Security implements GameObject {
 		this.startPos = startPos;
 		this.type = type;
 		stateTimer = 0;
-		defineObject();
 		defineAnimations();
+		defineObject();
 	}
 	
 	private void defineAnimations() {
@@ -83,26 +86,50 @@ public class Security implements GameObject {
 		form = new Sprite(stand);
 		form.setSize(form.getWidth() / PPM, form.getHeight() / PPM);
 		form.setOrigin(form.getWidth()/2, form.getHeight()/2);
-		body.setUserData(this);
 	}
 	
 	private void defineObject() {
 		
 		short mask = PLAYER_MASK | OUTSTAGE_MASK | KURIBALL_MASK;
 		
-		fixture = FixtureFactory.createRactangleB2DObject(
-			world, 
-			BodyType.DynamicBody, 
-			startPos, 
-			new float[] {84/2f, 136/2f}, 
-			SECURITY_MASK, 
-			mask
-		);
+//		fixture = FixtureFactory.createRactangleB2DObject(
+//			world, 
+//			BodyType.DynamicBody, 
+//			startPos, 
+//			new float[] {84/2f, 136/2f}, 
+//			SECURITY_MASK, 
+//			mask
+//		);
+//		
+//		body = fixture.getBody();
+//		body.setUserData(this);
+//		fixture.setUserData("data-security");
+//		fixture.setSensor(true);
 		
-		body = fixture.getBody();
+		BodyDef def = new BodyDef();
+		def.type = BodyType.DynamicBody;
+		def.position.set(startPos.x / PPM, startPos.y / PPM);
+		
+		PolygonShape shape = new PolygonShape();
+		shape.set(new Vector2[] { 
+				new Vector2(-form.getWidth()/2, 0),
+				new Vector2(0, form.getHeight()/2),
+				new Vector2(form.getWidth()/2, 0),
+				new Vector2(0, -form.getHeight()/2)
+		});
+		
+		FixtureDef fdef = new FixtureDef();
+		fdef.shape = shape;
+		fdef.filter.categoryBits = SECURITY_MASK;
+		fdef.filter.maskBits = mask;
+		
+		body = world.createBody(def);
+		fixture = body.createFixture(fdef);
 		body.setUserData(this);
 		fixture.setUserData("data-security");
 		fixture.setSensor(true);
+		
+		body.setTransform(body.getPosition().x, body.getPosition().y, -50);
 		
 		Random rand = new Random();
 		

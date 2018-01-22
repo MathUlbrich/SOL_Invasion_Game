@@ -57,6 +57,7 @@ public class SPlay extends GameState {
 	
 	public static float stageProgress;
 	public static int score;
+	public static boolean started;
 	
 	public SPlay(Main game) {
 		super(game);
@@ -80,7 +81,7 @@ public class SPlay extends GameState {
 		mapRenderer.getViewBounds().x = -200f;
 		
 		// CREATE THE BACKGROUND SPRITES
-		bg = new Sprite[5];
+		bg = new Sprite[17];
 		for(int i = 0; i < bg.length; i++) {
 			bg[i] = new Sprite(getTextureAsset(BACKGROUND_IMAGE));
 			bg[i].getTexture().setFilter(TextureFilter.Linear, TextureFilter.Linear);
@@ -116,7 +117,7 @@ public class SPlay extends GameState {
 			bdef.position.x = 0;
 			bdef.position.y = 0;
 			bdef.linearVelocity.x = 0;
-			bdef.linearVelocity.y = 1.2f;
+			bdef.linearVelocity.y = 1.8f;
 			
 			ChainShape shape = new ChainShape();
 			shape.createChain(new Vector2[] { new Vector2(blocksX[i], blocksY[i]), new Vector2(blocksX[i+1], blocksY[i+1])});
@@ -132,7 +133,7 @@ public class SPlay extends GameState {
 		}
 		
 		// CREATE THE SECURITIES
-		for(int i = 0; i < 8; i++) {
+		for(int i = 0; i < 34; i++) {
 			
 			MapObject mapObj = map.getLayers().get("securities easy").getObjects().get("s" + i);
 			
@@ -145,12 +146,18 @@ public class SPlay extends GameState {
 				DataSecurityFactory.createPurpleDataSecurity(world, new Vector2(x, y));
 		}
 		
-		// ADD THE DATA STORM TO GAME OBJECTS MANAGER
-		GOManager.instance.addGameObject(new Storm(world, new Vector2(0, 600f)));
+		// CREATE THE DATA STORMS POSSIBILITIES
+		for(int i = 0; i < 3; i++) {
+			MapObject mapObj = map.getLayers().get("storm easy").getObjects().get("storm" + i);
+			
+			float x = (Float) mapObj.getProperties().get("x");
+			float y = (Float) mapObj.getProperties().get("y");
+			
+			GOManager.instance.addGameObject(new Storm(world, new Vector2(x, y)));
+		}
 		
 		// SET THE CAMERA SETTINGS
 		camera.setToOrtho(false, V_WIDTH / PPM, V_HEIGHT /PPM );
-		
 		camera.position.x = 0;
 		
 		// SET THE CONTACTLISTENER TO CONTACTRESOLVER
@@ -160,8 +167,14 @@ public class SPlay extends GameState {
 		Gdx.input.setInputProcessor(new InputHandler());
 		
 		// ADD THE DATA PIECE
-		for(int i = 1; i <= 15; i++)
-			GOManager.instance.addGameObject(new DataPiece(world, new Vector2(0, 300f * i)));
+		for(int i = 0; i < 4; i++) {
+			MapObject mapObj = map.getLayers().get("datas easy").getObjects().get("d" + i);
+			
+			float x = (Float) mapObj.getProperties().get("x");
+			float y = (Float) mapObj.getProperties().get("y");
+			
+			GOManager.instance.addGameObject(new DataPiece(world, new Vector2(x, y)));
+		}
 		
 		// TRANSLATE THE CAMERA TO MAP POSITION
 		camera.translate(V_WIDTH/(2f * PPM), 0);
@@ -170,6 +183,7 @@ public class SPlay extends GameState {
 	
 	@Override
 	public void update(float deltaTime) {
+		if(!started) return;
 		batch.setProjectionMatrix(camera.combined);
 		
 		if(InputState.isPressed(InputState.SPACE))
@@ -177,7 +191,7 @@ public class SPlay extends GameState {
 		
 		// UPDATE THE CAMERA AND MOVE IT TO ABOVE
 		camera.update();
-		camera.position.y += 0.02f;
+		camera.position.y += 0.03f;
 		stageProgress = (camera.position.y * PPM) + V_HEIGHT;
 		
 		// MAKE BOX2D WORLD ROUND
@@ -201,6 +215,7 @@ public class SPlay extends GameState {
 
 	@Override
 	public void render() {
+		if(!started) return;
 		batch.setProjectionMatrix(camera.combined);
 		
 		// DRAW THE BACKGROUND IMAGE

@@ -3,6 +3,8 @@ package game.state;
 
 import java.util.Stack;
 
+import com.badlogic.gdx.utils.Timer;
+
 import game.Main;
 
 public class StateManager {
@@ -17,8 +19,17 @@ public class StateManager {
 
 	public boolean pushState(final State state) {
 
-		if(state == State.PLAY)
-			states.push(new SPlay(game));
+		if(state == State.PLAY) {
+			final SPlay play = new SPlay(game);
+			Timer.schedule(new Timer.Task() {
+				public void run() {
+					states.pop();
+					states.push(play);
+					SPlay.started = true;
+				}
+			}, 3);
+			states.push(new SLoad(game));
+		}
 		else if(state == State.MENU)
 			states.push(new SMenu(game));
 		else if(state == State.GAME_OVER)

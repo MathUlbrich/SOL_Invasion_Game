@@ -1,6 +1,14 @@
 package game.state;
 
-import static com.badlogic.gdx.scenes.scene2d.actions.Actions.*;
+import static com.badlogic.gdx.scenes.scene2d.actions.Actions.alpha;
+import static com.badlogic.gdx.scenes.scene2d.actions.Actions.delay;
+import static com.badlogic.gdx.scenes.scene2d.actions.Actions.fadeIn;
+import static com.badlogic.gdx.scenes.scene2d.actions.Actions.fadeOut;
+import static com.badlogic.gdx.scenes.scene2d.actions.Actions.moveTo;
+import static com.badlogic.gdx.scenes.scene2d.actions.Actions.parallel;
+import static com.badlogic.gdx.scenes.scene2d.actions.Actions.run;
+import static com.badlogic.gdx.scenes.scene2d.actions.Actions.scaleBy;
+import static com.badlogic.gdx.scenes.scene2d.actions.Actions.sequence;
 import static game.Assets.GAMEFONT;
 import static game.Assets.GAMEFONT_GRADIENT;
 import static game.Assets.PROXY_CIRCLE;
@@ -18,12 +26,13 @@ import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Interpolation;
+import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.scenes.scene2d.Touchable;
 import com.badlogic.gdx.scenes.scene2d.ui.Container;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Label.LabelStyle;
-import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton.TextButtonStyle;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
@@ -37,7 +46,6 @@ public class SMenu extends GameState {
 	private BitmapFont writter = new BitmapFont(Gdx.files.internal(GAMEFONT_GRADIENT));
 	private BitmapFont whiteWritter = new BitmapFont(Gdx.files.internal(GAMEFONT));
 	private OrthographicCamera camera;
-	private Table table;
 	private Sprite bg;
 	private final Stage stage;
 	private Sprite[] circles;
@@ -47,12 +55,6 @@ public class SMenu extends GameState {
 		
 		// CREATE CAMERA
 		camera = new OrthographicCamera(Settings.V_WIDTH, Settings.V_HEIGHT);
-		
-		// CREATE AND DEFINE TABLE SETTINGS
-		table = new Table();
-		table.setFillParent(true);
-		table.setTransform(true);
-		table.setOrigin(table.getPrefWidth()/2, table.getPrefHeight()/2);
 		
 		// CREATE THE MENU BACKGROUND IMAGE
 		bg = new Sprite(new TextureRegion(getTextureAsset(PROXY_MENU)));
@@ -85,12 +87,10 @@ public class SMenu extends GameState {
 		style.font = writter;
 		
 		// CREATE THE TEXT BUTTONS
-		final TextButton startLbl = new TextButton("START GAME", style);
-		final TextButton settingsLbl = new TextButton("SETTINGS", style);
+		final TextButton startLbl = new TextButton("INTO THE VRAINS", style);
 		final TextButton creditsLbl = new TextButton("CREDITS", style);
 		
 		startLbl.addAction(sequence(alpha(0), fadeIn(0.4f)));
-		settingsLbl.addAction(sequence(alpha(0), fadeIn(0.4f)));
 		creditsLbl.addAction(sequence(alpha(0), fadeIn(0.4f)));
 		
 		// DEFINE THE VERSION LABEL STYLE
@@ -102,24 +102,29 @@ public class SMenu extends GameState {
 		version.setPosition(450, 10);
 		
 		// CREATE THE CONTAINER FOR THE TEXT BUTTONS
-		final Container<TextButton> container1 = new Container<TextButton>(startLbl);
-		final Container<TextButton> container2 = new Container<TextButton>(settingsLbl);
-		final Container<TextButton> container3 = new Container<TextButton>(creditsLbl);
+		final Container<TextButton> startContainer = new Container<TextButton>(startLbl);
+		final Container<TextButton> creditsContainer = new Container<TextButton>(creditsLbl);
 		
-		container1.setTransform(true);
-		container2.setTransform(true);
-		container3.setTransform(true);
+		// DEFINE BUTTON MUTABLE FORM
+		startContainer.setTransform(true);
+		creditsContainer.setTransform(true);
 		
-		container1.setOrigin(container1.getWidth()/2, container1.getHeight()/2);
-		container2.setOrigin(container2.getWidth()/2, container2.getHeight()/2);
-		container3.setOrigin(container3.getWidth()/2, container3.getHeight()/2);
+		// DEFINE THE BUTTONS ORIGIN
+		startContainer.setOrigin(startContainer.getWidth()/2, startContainer.getHeight()/2);
+		creditsContainer.setOrigin(creditsContainer.getWidth()/2, creditsContainer.getHeight()/2);
+		
+		// DEFINE THE BUTTONS POSITION
+		startContainer.setPosition(V_WIDTH/2, V_HEIGHT/2);
+		creditsContainer.setPosition(V_WIDTH/2, V_HEIGHT/2.5f);
 		
 		// ADD EVENTS TO CONTAINERS
-		container1.addListener(new ClickListener() {
+		startContainer.addListener(new ClickListener() {
 			@Override
 			public void clicked(InputEvent event, float x, float y) {
 				//container1.addAction(parallel(fadeOut(0.5f), moveTo(container1.getX() + 60f, container1.getY(), 0.7f)));
-				container1.addAction(scaleBy(0.2f, 0.2f, 0.5f, Interpolation.circleOut));
+				startContainer.addAction(scaleBy(0.2f, 0.2f, 0.5f, Interpolation.circleOut));
+				for(Actor a : stage.getActors())
+					a.setTouchable(Touchable.disabled);
 				stage.addAction(sequence(delay(0.5f), fadeOut(0.5f), run(new Runnable() {
 					public void run() {
 						game.manager.pushState(State.PLAY);
@@ -128,35 +133,20 @@ public class SMenu extends GameState {
 			}
 		});
 		
-		container2.addListener(new ClickListener() {
+		creditsContainer.addListener(new ClickListener() {
 			@Override
 			public void clicked(InputEvent event, float x, float y) {
-				container2.addAction(parallel(fadeOut(0.5f), moveTo(container2.getX() + 60f, container2.getY(), 0.7f)));
+				creditsContainer.addAction(parallel(fadeOut(0.5f), moveTo(creditsContainer.getX() + 60f, creditsContainer.getY(), 0.7f)));
 				stage.addAction(sequence(delay(0.5f), fadeOut(0.5f)));
 			}
 		});
-		
-		container3.addListener(new ClickListener() {
-			@Override
-			public void clicked(InputEvent event, float x, float y) {
-				container3.addAction(parallel(fadeOut(0.5f), moveTo(container3.getX() + 60f, container3.getY(), 0.7f)));
-				stage.addAction(sequence(delay(0.5f), fadeOut(0.5f)));
-			}
-		});
-		
-		// ADD THE LABELS TO TABLE
-		table.add(container1).center().padBottom(10);
-		table.row();
-		table.add(container2).center().padBottom(10);
-		table.row();
-		table.add(container3).center().padBottom(10);
-		table.row();
 		
 		// CREATE AND CONFIGURE THE STAGE
 		stage = new Stage(new FitViewport(camera.viewportWidth, camera.viewportWidth), batch);
-		stage.addActor(table);
-		//container1.setPosition(200, 200);
-		//stage.addActor(container1);
+		//stage.addActor(table);
+
+		stage.addActor(startContainer);
+		stage.addActor(creditsContainer);
 		stage.addActor(version);
 		
 		Gdx.input.setInputProcessor(stage);

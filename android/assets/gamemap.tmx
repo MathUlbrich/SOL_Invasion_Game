@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.0" tiledversion="1.0.3" orientation="orthogonal" renderorder="right-down" width="10" height="150" tilewidth="60" tileheight="60" nextobjectid="9">
+<map version="1.0" tiledversion="1.0.3" orientation="orthogonal" renderorder="right-down" width="10" height="150" tilewidth="60" tileheight="60" nextobjectid="43">
  <layer name="Camada de Tiles 1" width="10" height="150">
   <data encoding="base64" compression="zlib">
    eJztwTEBAAAAwqD1T20IX6AAAAAAAIDXABdwAAE=
@@ -27,7 +27,107 @@
   <object id="7" name="s6" x="493.152" y="7119.78" width="14" height="13">
    <ellipse/>
   </object>
-  <object id="8" name="s7" x="293.333" y="1015.83" width="14" height="13">
+  <object id="9" name="s7" x="67.8187" y="7094.45" width="14" height="13">
+   <ellipse/>
+  </object>
+  <object id="10" name="s8" x="219.819" y="6929.11" width="14" height="13">
+   <ellipse/>
+  </object>
+  <object id="11" name="s9" x="487.667" y="6834.83" width="14" height="13">
+   <ellipse/>
+  </object>
+  <object id="12" name="s10" x="539.667" y="6590.83" width="14" height="13">
+   <ellipse/>
+  </object>
+  <object id="13" name="s11" x="59.6667" y="6546.83" width="14" height="13">
+   <ellipse/>
+  </object>
+  <object id="14" name="s12" x="293" y="6426.83" width="14" height="13">
+   <ellipse/>
+  </object>
+  <object id="15" name="s13" x="81" y="6054.84" width="14" height="13">
+   <ellipse/>
+  </object>
+  <object id="16" name="s14" x="501" y="6345.5" width="14" height="13">
+   <ellipse/>
+  </object>
+  <object id="17" name="s15" x="309" y="6160.17" width="14" height="13">
+   <ellipse/>
+  </object>
+  <object id="18" name="s16" x="198.333" y="5220.17" width="14" height="13">
+   <ellipse/>
+  </object>
+  <object id="19" name="s17" x="394.333" y="5968.17" width="14" height="13">
+   <ellipse/>
+  </object>
+  <object id="20" name="s18" x="513" y="5840.17" width="14" height="13">
+   <ellipse/>
+  </object>
+  <object id="21" name="s19" x="174.334" y="5642.83" width="14" height="13">
+   <ellipse/>
+  </object>
+  <object id="23" name="s20" x="290.333" y="5474.83" width="14" height="13">
+   <ellipse/>
+  </object>
+  <object id="24" name="s21" x="410.334" y="5249.5" width="14" height="13">
+   <ellipse/>
+  </object>
+  <object id="25" name="s22" x="545" y="5269.5" width="14" height="13">
+   <ellipse/>
+  </object>
+  <object id="26" name="s23" x="53" y="5372.17" width="14" height="13">
+   <ellipse/>
+  </object>
+  <object id="31" name="s24" x="411.667" y="4880.17" width="14" height="13">
+   <ellipse/>
+  </object>
+  <object id="32" name="s25" x="314.333" y="5001.5" width="14" height="13">
+   <ellipse/>
+  </object>
+  <object id="33" name="s26" x="526.333" y="5017.5" width="14" height="13">
+   <ellipse/>
+  </object>
+  <object id="34" name="s27" x="103.667" y="4982.83" width="14" height="13">
+   <ellipse/>
+  </object>
+  <object id="35" name="s28" x="6.33333" y="4781.5" width="14" height="13">
+   <ellipse/>
+  </object>
+  <object id="36" name="s29" x="34.3333" y="4305.5" width="14" height="13">
+   <ellipse/>
+  </object>
+  <object id="37" name="s30" x="185" y="4072.17" width="14" height="13">
+   <ellipse/>
+  </object>
+  <object id="38" name="s31" x="306.333" y="4256.17" width="14" height="13">
+   <ellipse/>
+  </object>
+  <object id="39" name="s32" x="534.333" y="4306.83" width="14" height="13">
+   <ellipse/>
+  </object>
+  <object id="40" name="s33" x="257" y="4526.83" width="14" height="13">
+   <ellipse/>
+  </object>
+  <object id="8" name="final" x="293.333" y="1015.83" width="14" height="13">
+   <ellipse/>
+  </object>
+ </objectgroup>
+ <objectgroup name="storm easy">
+  <object id="41" name="storm0" x="349" y="2636.17" width="14" height="13">
+   <ellipse/>
+  </object>
+ </objectgroup>
+ <objectgroup name="datas easy">
+  <object id="27" name="d0" x="179.667" y="8133.5" width="14" height="13">
+   <ellipse/>
+  </object>
+  <object id="28" name="d1" x="137" y="7833.5" width="14" height="13">
+   <ellipse/>
+  </object>
+  <object id="29" name="d2" x="478.333" y="7600.17" width="14" height="13">
+   <ellipse/>
+  </object>
+  <object id="30" name="d3" x="121" y="7264.17" width="14" height="13">
    <ellipse/>
   </object>
  </objectgroup>

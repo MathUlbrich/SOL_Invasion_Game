@@ -1,12 +1,10 @@
 package game;
 
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TmxMapLoader;
-import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 
 public class Assets {
 	
@@ -24,14 +22,16 @@ public class Assets {
 	public static final String KURIHUD = "kurihud.png";
 	public static final String DATAPIECE_SPRITES = "dp.png";
 	public static final String PROGRESS_BAR = "ProgressBar/bar.png";
-	public static final String PROGRESS_KNOB_A = "ProgressBar/knob.png";
+	public static final String PROGRESS_KNOB_B = "ProgressBar/knob.png";
 	public static final String PROGRESS_KNOB = "ProgressBar/saku.png";
+	public static final String RED_EFFECT = "red-effect.png";
 	
 	public static final String GAMESKIN = "skin/gameskin.json";
-	public static final String GAMEMAP = "gamemap.tmx"; 
+	public static final String GAMEMAP = "map.tmx"; 
 	public static final String BREAKING_EFFECT = "break-effect.mp3";
 	public static final String GAMEFONT = "font/font.fnt";
 	public static final String GAMEFONT_GRADIENT = "font/font-gradient.fnt";
+	public static final String WARNING_FONT = "font/warning.fnt";
 	
 	public static final String PROXY_MENU = "back-menu.png";
 	public static final String PROXY_CIRCLE = "circle.png";
@@ -51,8 +51,9 @@ public class Assets {
 		manager.load(PROXY_MENU, Texture.class);
 		manager.load(PROXY_CIRCLE, Texture.class);
 		manager.load(PROGRESS_BAR, Texture.class);
-		manager.load(PROGRESS_KNOB_A, Texture.class);
+		manager.load(PROGRESS_KNOB_B, Texture.class);
 		manager.load(PROGRESS_KNOB, Texture.class);
+		manager.load(RED_EFFECT, Texture.class);
 		
 		manager.finishLoading();
 	}

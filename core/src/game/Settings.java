@@ -8,5 +8,5 @@ public abstract class Settings {
 	public static final int V_HEIGHT = 700; //Virtual height
 	public static final int SCREEN_WIDTH  = (int)(600 * 0.8f);
 	public static final int SCREEN_HEIGHT = (int)(700 * 0.8f);
-	public static final boolean DEBUG_MODE = true;
+	public static final boolean DEBUG_MODE = false;
 }

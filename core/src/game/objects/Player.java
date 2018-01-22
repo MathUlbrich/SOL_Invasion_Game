@@ -25,7 +25,6 @@ import com.badlogic.gdx.physics.box2d.FixtureDef;
 import com.badlogic.gdx.physics.box2d.PolygonShape;
 import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.utils.Array;
-
 import game.Bullet;
 import game.input.InputState;
 
@@ -142,20 +141,20 @@ public class Player implements GameObject {
 		
 		//Anda para a direita
 		if(InputState.isDown(InputState.D)) {
-			body.setLinearVelocity(new Vector2(2.4f, 1.2f));
+			body.setLinearVelocity(new Vector2(2.4f, 1.8f));
 			body.setTransform(body.getPosition().x, body.getPosition().y, 75);
 			form.setRotation(-25);
 		}
 		
 		//Anda para a esquerda
 		else if(InputState.isDown(InputState.A)) {
-			body.setLinearVelocity(new Vector2(-2.4f, 1.2f));
+			body.setLinearVelocity(new Vector2(-2.4f, 1.8f));
 			body.setTransform(body.getPosition().x, body.getPosition().y, -75);
 			form.setRotation(25);
 		}
 		
 		else {
-			body.setLinearVelocity(new Vector2(0, 1.2f));
+			body.setLinearVelocity(new Vector2(0, 1.8f));
 			body.setTransform(body.getPosition().x, body.getPosition().y, 0);
 			form.setRotation(0);
 		}
@@ -167,7 +166,7 @@ public class Player implements GameObject {
 		}
 		
 		if(InputState.isDown(InputState.W))
-			body.setLinearVelocity(body.getLinearVelocity().x, 1.7f);
+			body.setLinearVelocity(body.getLinearVelocity().x, 2.3f);
 		else
 			body.setLinearVelocity(body.getLinearVelocity().x, 0.5f);
 		
