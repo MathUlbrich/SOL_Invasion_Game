@@ -13,6 +13,11 @@ public class SOver extends GameState {
 		super(game);
 		writter.setColor(Color.BLACK);
 	}
+	
+	@Override
+	public void resume() {
+		
+	}
 
 	@Override
 	public void update(float deltaTime) {

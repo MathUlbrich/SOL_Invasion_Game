@@ -27,6 +27,15 @@ public class InputState {
 		return key.down;
 	}
 	
+	public static void abortAll() {
+		A.down = false;
+		D.down = false;
+		O.down = false;
+		P.down = false;
+		W.down = false;
+		SPACE.down = false;
+	}
+	
 	public static void update() {
 		A.pressed = false;
 		D.pressed = false;

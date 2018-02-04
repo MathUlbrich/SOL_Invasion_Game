@@ -134,7 +134,7 @@ public class Player implements GameObject {
 		if(oldState != currentState) oldState = currentState;
 		
 		if(currentState == State.ATTACKING && stateTimer >= attackingAnimation.getAnimationDuration())
-			inAttacking = false;		
+			inAttacking = false;
 	}
 	
 	private void updateInput(float dt) {
@@ -166,7 +166,7 @@ public class Player implements GameObject {
 		}
 		
 		if(InputState.isDown(InputState.W))
-			body.setLinearVelocity(body.getLinearVelocity().x, 2.3f);
+			body.setLinearVelocity(body.getLinearVelocity().x, 2.9f);
 		else
 			body.setLinearVelocity(body.getLinearVelocity().x, 0.5f);
 		
@@ -222,6 +222,10 @@ public class Player implements GameObject {
 	
 	public Body getBody() {
 		return body;
+	}
+	
+	public void dispose() {
+		form.getTexture().dispose();
 	}
 	
 }

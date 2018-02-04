@@ -5,7 +5,6 @@ import static game.Assets.PROGRESS_BAR;
 import static game.Assets.PROGRESS_KNOB;
 import static game.Assets.PROGRESS_KNOB_B;
 import static game.Assets.RED_EFFECT;
-import static game.Assets.WARNING_FONT;
 import static game.Assets.getTextureAsset;
 import static game.Settings.SCREEN_HEIGHT;
 import static game.Settings.SCREEN_WIDTH;
@@ -27,7 +26,6 @@ import com.badlogic.gdx.scenes.scene2d.ui.ProgressBar;
 import com.badlogic.gdx.scenes.scene2d.ui.ProgressBar.ProgressBarStyle;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.utils.viewport.FitViewport;
-
 import game.objects.Player;
 import game.objects.Security;
 import game.objects.Security.DataType;
@@ -49,6 +47,7 @@ public class HUD {
 	public static boolean inAlert;
 	private float alpha;
 	private boolean flip;
+	public static boolean started;
 	
 	public HUD(final Player player) {
 		this.player = player;
@@ -135,19 +134,19 @@ public class HUD {
 			
 			alpha = flip ? alpha + 0.01f : alpha - 0.01f;
 			
-			if(alpha > 1)
-				alpha = 1;
-			else if(alpha < 0.5f)
+			if(alpha > 0.5f)
 				alpha = 0.5f;
+			else if(alpha < 0.2f)
+				alpha = 0.2f;
 			
-			if(alpha == 1 || alpha == 0.5)
+			if(alpha == 0.5f || alpha == 0.2f)
 				flip = !flip;
 	
 			alertEffect.setAlpha(alpha);
 		}
 
 		// IF THE TIME OF ALERT IS HIGHER THAN 5 SEC
-		if(alertTimer > 5 && alpha == 0.5f) {
+		if(alertTimer > 5 && alpha == 0.2f) {
 			inAlert = false;
 			alertTimer = 0;
 			for(Security s : ContactResolver.changedSecurities)
@@ -158,7 +157,8 @@ public class HUD {
 		// UPDATE THE PROGRESS BAR
 		bar.setValue(SPlay.stageProgress);
 		//bar.act(dt);
-		stage.act(dt);
+		if(started)
+			stage.act(dt);
 	}
 	
 	public void render() {
@@ -170,6 +170,7 @@ public class HUD {
 			hudBatch.end();
 		}
 		
+		if(!started) return;
 		stage.draw();
 		
 		// DRAW THE SCORE BITMAP

@@ -13,14 +13,14 @@ public class SteeringBehaviorEntity implements Steerable<Vector2> {
 	Body body;
 	
 	// STEERABLE DATA WITH DEFAULT VALUES
-	float maxLinearSpeed = 1.2f;
-	float maxLinearAcceleration = 2;
-	float maxAngularSpeed = 0;
-	float maxAngularAcceleration = 0;
-	float zeroThreshould = 0.1f;
+	float maxLinearSpeed;
+	float maxLinearAcceleration;
+	float maxAngularSpeed;
+	float maxAngularAcceleration;
+	float zeroThreshould;
 	float boundingRadius;
-	boolean independent = false;
-	boolean tagged = true;
+	boolean independent;
+	boolean tagged;
 	
 	// STEERABLE OBJECTS
 	SteeringBehavior<Vector2> behavior;
@@ -29,6 +29,45 @@ public class SteeringBehaviorEntity implements Steerable<Vector2> {
 	public SteeringBehaviorEntity(Body body, float boundingRadius) {
 		this.body = body;
 		this.boundingRadius = boundingRadius;
+		
+		maxLinearSpeed = 1.2f;
+		maxLinearAcceleration = 2;
+		maxAngularSpeed = 2;
+		maxAngularAcceleration = 2;
+		zeroThreshould = 0.1f;
+		independent = false;
+		tagged = true;
+	}
+	
+	// UPDATE THE ENTITY
+	public void update(float dt) {
+		if(behavior != null) {
+			behavior.calculateSteering(acceleration);
+			applySteering(dt);
+		}
+	}
+	
+	// APPLY THE MOVEMENT CHANGES OF STEERING TO BODY
+	private void applySteering(float dt) {
+		boolean inAcceleration = false;
+		
+		System.out.println(acceleration.linear.isZero());
+		
+		// IF BODY IS IN LINEAR MOVEMENT
+		if(!acceleration.linear.isZero()) {
+			Vector2 force = acceleration.linear;
+			body.applyForceToCenter(force, true);
+			inAcceleration = true;
+		}	
+		
+		// REGULE THE MAX VELOCITY
+		if(inAcceleration) {
+			Vector2 actualVel = body.getLinearVelocity();
+			float speedSquare = actualVel.len2();
+			
+			if(speedSquare > maxLinearSpeed * maxLinearSpeed)
+				body.setLinearVelocity(actualVel.scl(maxLinearSpeed / (float) Math.sqrt(speedSquare)));
+		}
 	}
 	
 	public SteeringBehavior<Vector2> getBehavior() {
@@ -37,6 +76,10 @@ public class SteeringBehaviorEntity implements Steerable<Vector2> {
 	
 	public void setBehavior(SteeringBehavior<Vector2> behavior) {
 		this.behavior = behavior;
+	}
+	
+	public Body getBody() {
+		return body;
 	}
 	
 	public SteeringAcceleration<Vector2> getAcceleration() {

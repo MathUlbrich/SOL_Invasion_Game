@@ -1,5 +1,6 @@
 package game.objects;
 
+import static game.WorldVars.BARRAGE_MASK;
 import static game.WorldVars.KURIBALL_MASK;
 import static game.WorldVars.OUTSTAGE_MASK;
 import static game.WorldVars.PLAYER_MASK;
@@ -25,7 +26,7 @@ import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.utils.Array;
 
 import game.Assets;
-import game.FixtureFactory;
+import game.movements.behaviors.SecurityBehavior;
 
 public class Security implements GameObject {
 	
@@ -45,6 +46,7 @@ public class Security implements GameObject {
 	public boolean inConflict;
 	private boolean destroyed;
 	private boolean rotate;
+	private SecurityBehavior behavior;
 	
 	public Security(World world, Vector2 startPos, DataType type) {
 		this.world = world;
@@ -53,6 +55,7 @@ public class Security implements GameObject {
 		stateTimer = 0;
 		defineAnimations();
 		defineObject();
+		behavior = new SecurityBehavior(this);
 	}
 	
 	private void defineAnimations() {
@@ -90,7 +93,7 @@ public class Security implements GameObject {
 	
 	private void defineObject() {
 		
-		short mask = PLAYER_MASK | OUTSTAGE_MASK | KURIBALL_MASK;
+		short mask = PLAYER_MASK | OUTSTAGE_MASK | KURIBALL_MASK | BARRAGE_MASK;
 		
 //		fixture = FixtureFactory.createRactangleB2DObject(
 //			world, 
@@ -153,6 +156,8 @@ public class Security implements GameObject {
 		
 		if(breaking.isAnimationFinished(stateTimer))
 			destroyed = true;
+		
+		behavior.act();
 	}
 	
 	private void updatePosition() {

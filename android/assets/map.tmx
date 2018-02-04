@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.0" tiledversion="1.0.3" orientation="orthogonal" renderorder="right-down" width="10" height="450" tilewidth="60" tileheight="60" nextobjectid="3">
+<map version="1.0" tiledversion="1.0.3" orientation="orthogonal" renderorder="right-down" width="10" height="450" tilewidth="60" tileheight="60" nextobjectid="5">
  <layer name="Camada de Tiles 1" width="10" height="450">
   <data encoding="base64" compression="zlib">
    eJztwQENAAAAwqD3T20PBxQAAAAAAAAAAAAAAAAAAAAAAA8GRlAAAQ==
@@ -110,13 +110,19 @@
   </object>
  </objectgroup>
  <objectgroup name="storm easy">
-  <object id="41" name="storm0" x="300" y="19539.2" width="14" height="13">
+  <object id="3" name="storm0" x="273" y="26291.5" width="14" height="13">
    <ellipse/>
   </object>
   <object id="1" name="storm1" x="300" y="12301.5" width="14" height="13">
    <ellipse/>
   </object>
   <object id="2" name="storm2" x="300" y="5243.44" width="14" height="13">
+   <ellipse/>
+  </object>
+  <object id="41" name="storm3" x="272" y="26433" width="14" height="13">
+   <ellipse/>
+  </object>
+  <object id="4" name="storm4" x="280.879" y="25660.2" width="14" height="13">
    <ellipse/>
   </object>
  </objectgroup>

@@ -61,6 +61,11 @@ public class SPause extends GameState {
 	}
 
 	@Override
+	public void resume() {
+		
+	}
+	
+	@Override
 	public void update(float deltaTime) {
 		stage.act(deltaTime);
 	}

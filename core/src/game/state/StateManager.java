@@ -9,7 +9,7 @@ import game.Main;
 
 public class StateManager {
 
-	public enum State {MENU, PLAY, GAME_OVER, PAUSE};
+	public enum State {MENU, PLAY, GAME_OVER, PAUSE, LOAD};
 	private Main game;
 	private Stack<GameState> states = new Stack<GameState>();
 	
@@ -20,15 +20,9 @@ public class StateManager {
 	public boolean pushState(final State state) {
 
 		if(state == State.PLAY) {
-			final SPlay play = new SPlay(game);
-			Timer.schedule(new Timer.Task() {
-				public void run() {
-					states.pop();
-					states.push(play);
-					SPlay.started = true;
-				}
-			}, 3);
-			states.push(new SLoad(game));
+			SPlay play = new SPlay(game);
+			states.pop();
+			states.push(play);
 		}
 		else if(state == State.MENU)
 			states.push(new SMenu(game));
@@ -36,12 +30,15 @@ public class StateManager {
 			states.push(new SOver(game));
 		else if(state == State.PAUSE)
 			states.push(new SPause(game));
+		else if(state == State.LOAD)
+			states.push(new SLoad(game));
 		
 		return false;
 	}
 
 	public void backState() {
 		states.pop();
+		states.get(states.size()-1).resume();
 	}
 	
 	public GameState getCurrentState() {

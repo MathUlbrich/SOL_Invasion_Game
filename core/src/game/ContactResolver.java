@@ -1,15 +1,14 @@
 package game;
 
-import java.util.LinkedList;
-
 import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.Contact;
 import com.badlogic.gdx.physics.box2d.ContactImpulse;
 import com.badlogic.gdx.physics.box2d.ContactListener;
 import com.badlogic.gdx.physics.box2d.Manifold;
-import com.badlogic.gdx.scenes.scene2d.ui.List;
 import com.badlogic.gdx.utils.Queue;
+
+import java.util.LinkedList;
 
 import game.objects.GOManager;
 import game.objects.GameObject;
@@ -52,18 +51,11 @@ public class ContactResolver implements ContactListener {
 				}
 				
 				// PLAY THE SECURITY DESTROYING SOUND EFFECT
-				
 				Sound sound = Assets.getSoundEffect(Assets.BREAKING_EFFECT);
 				sound.setVolume(sound.play(), 1);
-
-				//APPLY RED FADE EFFECT
-				
-				
 			}
-			else if( ds.getType() == DataType.PURPLE ) {
-				
+			else if( ds.getType() == DataType.PURPLE )
 				game.manager.pushState(State.GAME_OVER);
-			}
 		}
 		
 		if(contact.getFixtureB().getUserData().equals("kuriball") && 
@@ -88,7 +80,6 @@ public class ContactResolver implements ContactListener {
 			bodiesToRemove.addFirst(contact.getFixtureB().getBody());
 			SPlay.score += 200;
 		}
-		
 	}
 
 	@Override

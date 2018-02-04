@@ -90,4 +90,8 @@ public class Kuriball implements GameObject {
 		world.destroyBody(body);
 	}
 	
+	public void dispose() {
+		form.getTexture().dispose();
+	}
+	
 }

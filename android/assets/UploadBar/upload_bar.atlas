@@ -1,0 +1,20 @@
+
+upload_bar.png
+size: 512,512
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+kanobb
+  rotate: false
+  xy: 1, 463
+  size: 48, 17
+  orig: 48, 17
+  offset: 0, 0
+  index: -1
+upload
+  rotate: false
+  xy: 1, 482
+  size: 502, 21
+  orig: 502, 21
+  offset: 0, 0
+  index: -1

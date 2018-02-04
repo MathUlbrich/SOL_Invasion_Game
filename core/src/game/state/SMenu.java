@@ -1,14 +1,6 @@
 package game.state;
 
-import static com.badlogic.gdx.scenes.scene2d.actions.Actions.alpha;
-import static com.badlogic.gdx.scenes.scene2d.actions.Actions.delay;
-import static com.badlogic.gdx.scenes.scene2d.actions.Actions.fadeIn;
-import static com.badlogic.gdx.scenes.scene2d.actions.Actions.fadeOut;
-import static com.badlogic.gdx.scenes.scene2d.actions.Actions.moveTo;
-import static com.badlogic.gdx.scenes.scene2d.actions.Actions.parallel;
-import static com.badlogic.gdx.scenes.scene2d.actions.Actions.run;
-import static com.badlogic.gdx.scenes.scene2d.actions.Actions.scaleBy;
-import static com.badlogic.gdx.scenes.scene2d.actions.Actions.sequence;
+import static com.badlogic.gdx.scenes.scene2d.actions.Actions.*;
 import static game.Assets.GAMEFONT;
 import static game.Assets.GAMEFONT_GRADIENT;
 import static game.Assets.PROXY_CIRCLE;
@@ -117,17 +109,20 @@ public class SMenu extends GameState {
 		startContainer.setPosition(V_WIDTH/2, V_HEIGHT/2);
 		creditsContainer.setPosition(V_WIDTH/2, V_HEIGHT/2.5f);
 		
+		startContainer.setScale(3);
+		
+		startContainer.addAction(sequence(scaleTo(1, 1, 0.8f)));
+		
 		// ADD EVENTS TO CONTAINERS
 		startContainer.addListener(new ClickListener() {
 			@Override
 			public void clicked(InputEvent event, float x, float y) {
-				//container1.addAction(parallel(fadeOut(0.5f), moveTo(container1.getX() + 60f, container1.getY(), 0.7f)));
-				startContainer.addAction(scaleBy(0.2f, 0.2f, 0.5f, Interpolation.circleOut));
+				startContainer.addAction(scaleBy(0.4f, 0.4f, 0.5f, Interpolation.circleOut));
 				for(Actor a : stage.getActors())
 					a.setTouchable(Touchable.disabled);
 				stage.addAction(sequence(delay(0.5f), fadeOut(0.5f), run(new Runnable() {
 					public void run() {
-						game.manager.pushState(State.PLAY);
+						game.manager.pushState(State.LOAD);
 					}
 				})));
 			}
@@ -150,6 +145,11 @@ public class SMenu extends GameState {
 		stage.addActor(version);
 		
 		Gdx.input.setInputProcessor(stage);
+	}
+	
+	@Override
+	public void resume() {
+		
 	}
 
 	@Override
